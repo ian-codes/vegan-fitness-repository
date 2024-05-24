@@ -1,9 +1,7 @@
-<script lang="ts">
-    import type { Workout } from "$lib/models/workout";
+<script>
+    export let workout;
 
-    export let workout: Workout;
-
-    let isCollapsed: boolean = false;
+    let isCollapsed = false;
 </script>
 
 

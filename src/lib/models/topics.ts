@@ -6,12 +6,12 @@ export interface Topic {
 };
 
 export const topics: Topic[] = [
-    {
-        title: "Recipes",
-        desc: "Plant-based, high-protein recipes. Healthy, easy to make and satisfying.",
-        slug: "recipes",
-        img: "recipes.jpg"
-    },
+    // {
+    //     title: "Recipes",
+    //     desc: "Plant-based, high-protein recipes. Healthy, easy to make and satisfying.",
+    //     slug: "recipes",
+    //     img: "recipes.jpg"
+    // },
     {
         title: "Workouts",
         desc: "Workout programs for all levels, from beginner to advanced. With and without equipment.",

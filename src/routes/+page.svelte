@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import { topics } from "$lib/models/topics.ts";
     import Card from "$lib/components/Card.svelte";
 </script>
@@ -18,7 +18,7 @@
 </section>
 
 
-<section class="flex-wrap justiy-center align-middle">
+<section class="section">
     {#each topics as topic}
         <Card topic={topic} />
     {/each}

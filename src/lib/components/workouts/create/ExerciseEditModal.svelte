@@ -1,29 +1,38 @@
-
-<script lang="ts">
+<script>
+    import ErrorMessage from "$lib/components/ErrorMessage.svelte";
     import Button from "$lib/components/Button.svelte";
-    import type { Exercise } from "$lib/models/workout";
+    export let isVisible = false;
 
-    export let isVisible: boolean = false;
-
-    let defaultExercise: Exercise = {
+    let defaultExercise = {
         name: "",
         reps: 0,
         sets: 0
     }
 
-    export let exercise: Exercise = defaultExercise;
+    let attemptedSave = false;
 
-    export let exercises: Exercise[] = [];
+    export let exercise = defaultExercise;
+    export let exercises = [];
 
     let isEditingExistingExercise = exercise == defaultExercise;
 
+    $: noName = attemptedSave && exercise.name === "";
+    $: noReps = attemptedSave && exercise.reps < 1;
+    $: noSets = attemptedSave && exercise.sets < 1;
+
     function cancel() {
-        isVisible = false;
         exercise = defaultExercise;
+        isVisible = false;
+        attemptedSave = false;
     }
 
     function save() {
-        isVisible = false;
+        attemptedSave = true;
+
+        if (exercise.name === "") return;
+        if (exercise.sets === 0) return;
+        if (exercise.reps === 0) return;
+
         if (!exercises.includes(exercise)) {
             exercises.push(exercise);
         }
@@ -35,12 +44,16 @@
         }
         exercises = exercises;
         exercise = defaultExercise;
+
+        isVisible = false;
+        attemptedSave = false;
     }
 
     function deleteExercise() {
-        isVisible = false;
         exercises = exercises.filter(e => e.name != exercise.name);
         exercise = defaultExercise;
+        isVisible = false;
+        attemptedSave = false;
     }
 </script>
 
@@ -49,7 +62,7 @@
     <div class="z-50 text-center flex gap-5 flex-col items-center justify-center absolute inset-0 
     
     bg-slate-800 bg-opacity-80 backdrop-blur-md">
-        <div class="flex flex-col gap-1">
+        <div class:error={noName} class="flex flex-col gap-1">
             <label class="text-center" for="name">Name</label>
             <input bind:value={exercise.name} 
                 class="text-center"
@@ -57,19 +70,31 @@
                 name="name" type="text" required />
         </div>
 
-        <div class="flex flex-col gap-1">
+        <ErrorMessage visible={noName}>
+            Please give the exercise a name.
+        </ErrorMessage>
+
+        <div class:error={noSets} class="flex flex-col gap-1">
             <label  for="sets">Sets</label>
             <input bind:value={exercise.sets} 
                 class="text-center"
                 name="sets" type="number" required />
         </div>
 
-        <div class="flex flex-col gap-1">
+        <ErrorMessage visible={noSets}>
+            Please add at least 1 set.
+        </ErrorMessage>
+
+        <div class:error={noReps} class="flex flex-col gap-1">
             <label class="text-center" for="reps">Reps</label>
             <input bind:value={exercise.reps} 
                 class="text-center"
                 name="reps" type="number" required />
         </div>
+
+        <ErrorMessage visible={noName}>
+            Please add at least 1 rep.
+        </ErrorMessage>
 
         <div>
             <Button onClick={cancel} title="Cancel" />

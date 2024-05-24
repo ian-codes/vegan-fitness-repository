@@ -3,7 +3,11 @@
 
     let isOpen: boolean = false;
 
-    let menu_items = ["Home", "Workouts", "Recipes", "Philosophy"];
+    let menu_items = [
+        {title: "Home", slug: "/"}, 
+        {title: "Workouts", slug:"/workouts"},
+        {title: "Recipes", slug:"/recipes"}, 
+    ];
 </script>
 
 
@@ -38,8 +42,8 @@
             <ol class="bg-slate-100 rounded-md rounded-br-none shadow-slate-600 shadow-md absolute right-0 bottom-14">
                 {#each menu_items as item}
                     <li class="hover:bg-slate-800  hover:text-white shadow-s shadow-blue-400">
-                        <a href="{item}" class="px-4 py-3 block font-semibold">
-                            {item}
+                        <a href="{item.slug}" on:click={() => isOpen = false} class="px-4 py-3 block font-semibold">
+                            {item.title}
                         </a>
                     </li>
                 {/each}

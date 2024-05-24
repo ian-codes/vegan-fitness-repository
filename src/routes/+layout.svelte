@@ -8,9 +8,7 @@
     from-slate-800 to-slate-900" />
 
 <Header />
-
 <main class="px-4 mb-20">
     <slot />
 </main>
-
 <Footer />

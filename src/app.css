@@ -3,9 +3,18 @@
 @tailwind utilities;
 
 @layer components {
+    .section {
+        @apply my-9 flex flex-col gap-10 justify-center items-center
+    }
     h1 {
-        @apply text-2xl mb-5 text-white text-center leading-normal tracking-normal font-bold 
+        @apply text-2xl text-white text-center leading-normal tracking-normal font-bold 
         sm:text-4xl;
+    }
+    h2 {
+        @apply text-white mb-4 font-bold text-2xl sm:text-4xl
+    }
+    p {
+        @apply text-white text-sm sm:text-xl
     }
     input {
         @apply border-b border-dashed p-1 border-slate-400 text-white bg-slate-500 bg-opacity-50;
@@ -14,8 +23,31 @@
         @apply text-white
     }
     .btn {
+        @apply text-white bg-slate-700 hover:shadow-slate-800 hover:scale-105 
+        transition-all rounded-md px-4 py-2
+        hover:outline-none outline-lime-500 outline-1 outline
+        hover:shadow-md shadow-lime-400 font-bold tracking-wider
+        hover:bg-gradient-to-l from-lime-500 to-lime-700
+    }
+    .btn-plain {
         @apply text-white bg-slate-700 hover:bg-slate-600 hover:shadow-slate-800 hover:scale-105 
-        shadow-md transition-all rounded-md px-4 py-2;
+        shadow-md transition-all rounded-md px-4 py-2
+    }
+    .btn-cancel {
+        @apply outline-none
+        hover:bg-gradient-to-r from-red-700 to-red-500
+        hover:text-white
+    }
+    .card {
+        @apply mb-4 p-5 sm:m-4 cursor-pointer inline-block relative hover:scale-105 
+        bg-gradient-to-br from-blue-800 to-slate-900 
+        transition-all max-w-lg rounded-2xl overflow-hidden shadow-2xl
+    }
+    .error {
+        @apply outline outline-1 outline-red-500 p-2
+    }
+    .error-msg {
+        @apply italic text-red-300 block
     }
 }
 

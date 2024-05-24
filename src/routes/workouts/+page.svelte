@@ -1,18 +1,35 @@
-<script lang="ts">
-    import type { PageData } from "../$types";
+<script>
+    import { onMount } from 'svelte';
+    import { goto } from "$app/navigation";
 
-    export let data: PageData;
+    export const config = {
+        runtime: 'nodejs18.x'
+    };
+    
+    export let data;
 
-    $: ({ workouts } = data);
+    function handleCreate() {
+        goto('/workouts/create');
+    }
 </script>
 
-<section>
-    <h1>Workout List</h1>
-    <p>This is a list of workouts.</p>
+<section class="section">
+    <div class="flex flex-row gap-5 justify-center items-center">
+        <h1>Workouts</h1>
+        <button on:click={handleCreate} class="btn">
+            Create New
+        </button>
+    </div>
+
     <ul>
-        {#each workouts as workout}
+        {#each data.workouts as workout}
             <li>
-                {workout.title}
+                <a href="workouts/{workout.id}" class="card w-full">
+                    <h2>
+                        {workout.title}
+                    </h2>
+                    <p>{workout.exercises.length} Exercises</p>
+                </a>
             </li>
         {/each}
     </ul>

@@ -1,19 +1,18 @@
-<script lang="ts">
-    import type { Exercise } from "$lib/models/workout";
+<script>
     import ExerciseEditModal from "./ExerciseEditModal.svelte";
 
-    export let exercises: Exercise[] = [];
+    export let exercises = [];
 
-    let isEditable: boolean = false;
-    let isModalOpen: boolean = false;
-    let selectedExercise: Exercise;
+    let isEditable = false;
+    let isModalOpen = false;
+    let selectedExercise;
 
-    function handleClick(exercise: Exercise) : void {
+    function handleClick(exercise) {
         selectedExercise = exercise;
         isModalOpen = true;
     };
 
-    function newExercise() : void {
+    function newExercise() {
         isModalOpen = true;
         selectedExercise = {
             name: "",
@@ -27,10 +26,10 @@
 <ExerciseEditModal bind:isVisible={isModalOpen} bind:exercise={selectedExercise} bind:exercises={exercises} />
 
 <section class="flex flex-col gap-5">
-    <div class="flex flex-col sm:flex-row items-center justify-between">
+    <div class="flex flex-row items-center justify-between">
         <h2 class="mb-4 text-xl text-center">Exercises ({exercises.length})</h2>
 
-        <button class="btn" on:click={newExercise}>
+        <button class="btn-plain" on:click={newExercise}>
             Add Exercise
         </button>
     </div>
