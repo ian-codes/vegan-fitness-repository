@@ -6,8 +6,25 @@
         <span class="text-white text-xs sm:text-sm">
             Community-Driven Knowledge Base
         </span>
-        <span class="text-white absolute p-4 top-0 right-0 font-extralight text-sm">
-            Made by Rumble (─‿‿─)
+        <span class="text-white block opacity-90 p-2 font-extralight text-xs">
+            Made by Rumble <span>{emote}</span>
         </span>
     </a>
 </header>
+
+<script>
+    import { onMount } from "svelte";
+
+    const emotes = ["(´• ω •`)", "(─‿‿─)", "ヽ(・∀・)ﾉ", "(⌒‿⌒)", "(⁀ᗢ⁀)"]
+
+    $: emote = emotes[3];
+
+    function getRandomEmote() {
+        const randomIndex = Math.floor(Math.random() * emotes.length);
+        emote = emotes[randomIndex];
+    }
+
+    onMount(() => {
+        setInterval(getRandomEmote, 3000);
+    });
+</script>
