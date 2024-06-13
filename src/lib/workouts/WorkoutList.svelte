@@ -5,7 +5,9 @@
                 <h2>
                     {workout.title}
                 </h2>
-                <p>{workout.exercises.length} Exercises</p>
+                <p>{workout.exercises.length} 
+                    Exercise{(workout.exercises.length > 1 ? "s" : "")}
+                </p>
             </a>
         </li>
     {/each}

@@ -8,7 +8,7 @@
     from-slate-800 to-slate-900" />
 
 <Header />
-<main class="p-4 mb-20 appear">
+<main class="p-4 mb-20 relative appear">
     <div class="appear">
         <slot />
     </div>
