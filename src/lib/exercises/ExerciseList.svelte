@@ -3,7 +3,6 @@
 
     export let exercises = [];
 
-    let isEditable = false;
     let isModalOpen = false;
     let selectedExercise;
 

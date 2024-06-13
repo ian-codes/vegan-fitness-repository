@@ -1,6 +1,6 @@
 <script>
-    import ErrorMessage from "$lib/components/ErrorMessage.svelte";
-    import Button from "$lib/components/Button.svelte";
+    import ErrorMessage from "$lib/global/ErrorMessage.svelte";
+    import Button from "$lib/global/Button.svelte";
     export let isVisible = false;
 
     let defaultExercise = {

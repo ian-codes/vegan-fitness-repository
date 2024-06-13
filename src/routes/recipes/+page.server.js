@@ -2,16 +2,16 @@ import { supabase } from "$db/supabase";
 
 export async function load() {
     return {
-        workouts: getWorkouts(),
+        workouts: getRecipes(),
     };
 }
 
-async function getWorkouts() {
+async function getRecipes() {
     let { data, error } = await supabase
-        .from("workouts")
+        .from("recipes")
         .select(`
             *,
-            exercises (*)
+            ingredients (*)
         `);
 
     if (error) {

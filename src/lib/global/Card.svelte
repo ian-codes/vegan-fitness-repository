@@ -7,8 +7,9 @@
     };
 </script>
 
+
 <a id="{topic.title}" title="{topic.title}" href="/{topic.slug}" 
-    class="card relative">
+    class="card from-blue-800 to-slate-900 relative">
 
     <h2>{topic.title}</h2>
     <p>{topic.desc}</p>

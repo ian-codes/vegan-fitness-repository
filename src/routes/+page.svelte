@@ -1,6 +1,6 @@
 <script>
-    import { topics } from "$lib/models/topics.ts";
-    import Card from "$lib/components/Card.svelte";
+    import { topics } from "$lib/topics";
+    import Card from "$lib/global/Card.svelte";
 </script>
 
 

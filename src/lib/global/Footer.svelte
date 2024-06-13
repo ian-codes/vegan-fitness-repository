@@ -1,6 +1,5 @@
 <script lang="ts">
     import Header from "./Header.svelte";
-
     let isOpen: boolean = false;
 
     let menu_items = [
