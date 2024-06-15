@@ -33,6 +33,9 @@
     input {
         @apply border-b border-dashed p-1 border-slate-400 text-white bg-slate-500 bg-opacity-50;
     }
+    select {
+        @apply p-1 bg-transparent text-white outline outline-1 outline-slate-400 rounded-md
+    }
     label {
         @apply text-white
     }

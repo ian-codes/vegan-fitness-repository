@@ -1,5 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
+    import { difficulties } from "$lib/difficulties.js";
     import WorkoutList from "$lib/workouts/WorkoutList.svelte";
 
     export const config = {
@@ -7,7 +8,15 @@
     };
 
     export let data;
-    
+
+    const filterDifficulties = ["All", ...difficulties]
+    let selectedDifficulty = "All";
+    let filteredWorkouts;
+
+    $: filteredWorkouts = selectedDifficulty === 'All'
+        ? data.workouts
+        : data.workouts.filter(w => w.difficulty === selectedDifficulty);
+
     function handleCreate() {
         goto('/workouts/create');
     }
@@ -21,6 +30,17 @@
             Create New
         </button>
     </div>
+
+    <!-- <div class="flex items-center gap-2">
+        <span class="text-white">
+            Level
+        </span>
+        <select bind:value={selectedDifficulty}>
+            {#each filterDifficulties as difficulty}
+                <option value="{difficulty}">{difficulty}</option>
+            {/each}
+        </select>
+    </div> -->
 
     {#await data.workouts}
         <p>Loading workouts...</p>

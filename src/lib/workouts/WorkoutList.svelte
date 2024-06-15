@@ -5,9 +5,17 @@
                 <h2>
                     {workout.title}
                 </h2>
-                <p>{workout.exercises.length} 
-                    Exercise{(workout.exercises.length > 1 ? "s" : "")}
-                </p>
+                <div class="text-white flex flex-row items-baseline justify-between">
+                    <span>{workout.exercises.length} 
+                        Exercise{(workout.exercises.length > 1 ? "s" : "")}
+                    </span>
+                    <span>
+                        {workout.difficulty || ""}
+                    </span>
+                    <span class="text-sm opacity-70">
+                        by <i>{workout.created_by || "Anonymous Vegan"}</i>
+                    </span>
+                </div>
             </a>
         </li>
     {/each}
