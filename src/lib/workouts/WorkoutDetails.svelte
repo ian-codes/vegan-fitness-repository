@@ -1,5 +1,8 @@
-<div class="flex flex-col gap-10 items-start">
+<div class="flex text-white flex-col gap-4 items-start">
     <h1>{workout[0].title}</h1>
+    <p class="text-center text-sm opacity-70 block w-full">
+        Made by <i>{workout.created_by || "Anonymous Vegan"} </i>
+    </p>
 </div>
 <div class="text-white flex flex-col max-w-md w-full gap-5">
     <ol class="text-white flex flex-col gap-3">

@@ -4,43 +4,55 @@
     <h1>Create a Workout</h1>
 
     <form class="text-white flex flex-wrap justify-between items-center max-w-md w-full gap-4">
-        <fieldset class="w-full flex flex-col gap-6">
-            <!-- <legend class="bg-slate-300 w-full relative">
-                <button type="button" class="absolute inset-0 invisible" />
+        <fieldset class="w-full flex flex-col gap-6 p-4
+            border-1 border border-slate-500 border-dotted rounded-md
+            shadow-sm shadow-green-800 bg-gradient-to-tr from-transparent to-slate-700">
+            <h3 class="w-full relative">
+                <button on:click={handleInfosClick} 
+                    type="button" 
+                    class="absolute inset-0">
+                    <span 
+                        style="background-image: url('/expand.svg')"
+                        class="{infosOpen ? "rotate-180" : ""} absolute right-0 
+                        top-0 w-4 h-4 block bg-no-repeat transition-all
+                        invert bg-contain bg-center" />
+                </button>
                 General Infos
-            </legend> -->
-            <div class="w-full">
-                <Input 
-                    name="workout-title"
-                    label="Title"
-                    placeholder="e.g. Full Body Workout"
-                    bind:value={workout.title}
-                    bind:isError={errors.title}
-                    errorMessage="Please give your workout a title."
-                />
-            </div>
-            <div class="w-full gap-4 flex flex-wrap items-center justify-between">
-                <div class="w-min h-full flex flex-col gap-1">
-                    <label for="select-workout-level">Level *</label>
-                    <select class:error={errors.difficulty} 
-                        class="text-white bg-transparent placeholder-white"
-                        bind:value={workout.difficulty}
-                        placeholder="Select difficulty">
-        
-                        <option value="" disabled selected>Select level</option>
-                        {#each difficulties as difficulty}
-                            <option value="{difficulty}">{difficulty}</option>
-                        {/each}
-                    </select>
+            </h3>
+            {#if infosOpen}
+                <div class="w-full">
+                    <Input 
+                        name="workout-title"
+                        label="Title"
+                        placeholder="e.g. Full Body Workout"
+                        bind:value={workout.title}
+                        bind:isError={errors.title}
+                        errorMessage="Please give your workout a title."
+                    />
                 </div>
-                <Input
-                    name="workout-author"
-                    label="Created By"
-                    optional=true
-                    placeholder="Anonymous Vegan"
-                    bind:value={workout.created_by}
-                />
-            </div>
+                <div class="w-full gap-4 flex flex-wrap items-center justify-between">
+                    <div class="w-min h-full flex flex-col gap-1">
+                        <label for="select-workout-level">Level *</label>
+                        <select class:error={errors.difficulty} 
+                            class="text-white bg-transparent placeholder-white"
+                            bind:value={workout.difficulty}
+                            placeholder="Select difficulty">
+            
+                            <option value="" disabled selected>Select level</option>
+                            {#each difficulties as difficulty}
+                                <option value="{difficulty}">{difficulty}</option>
+                            {/each}
+                        </select>
+                    </div>
+                    <Input
+                        name="workout-author"
+                        label="Created By"
+                        optional=true
+                        placeholder="Anonymous Vegan"
+                        bind:value={workout.created_by}
+                    />
+                </div>
+            {/if}
         </fieldset>
 
         <ErrorMessage 
@@ -90,11 +102,16 @@
         exercises: attemptedCreate && workout.exercises.length === 0
     }
 
+    let infosOpen = true;
     let attemptedCreate = false;
     let isModalOpen = false;
 
     function discard() {
         goto("/workouts");
+    }
+
+    function handleInfosClick() {
+        infosOpen = !infosOpen;
     }
 
     async function create() {

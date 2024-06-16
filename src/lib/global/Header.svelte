@@ -6,9 +6,9 @@
         <span class="text-white text-xs sm:text-sm">
             Community-Driven Knowledge Base
         </span>
-        <span class="text-white block opacity-90 p-2 font-extralight text-xs">
+        <!-- <span class="text-white block opacity-80 p-2 font-extralight text-xs">
             Made by Rumble <span>{emote}</span>
-        </span>
+        </span> -->
     </a>
 </header>
 

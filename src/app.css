@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+    html {
+        scroll-behavior: smooth;
+    }
     .appear {
         animation: appear .5s ease forwards;
     }
