@@ -2,10 +2,6 @@
     import { goto } from "$app/navigation";
     import RecipeList from "$lib/recipes/RecipeList.svelte";
 
-    export const config = {
-        runtime: 'nodejs18.x'
-    };
-
     export let data;
     
     function handleCreate() {

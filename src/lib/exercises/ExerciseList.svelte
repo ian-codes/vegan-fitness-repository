@@ -24,11 +24,15 @@
 
 <ExerciseEditModal bind:isVisible={isModalOpen} bind:exercise={selectedExercise} bind:exercises={exercises} />
 
-<section class="flex flex-col gap-5">
-    <div class="flex flex-row items-center justify-between">
+<div class="mt-10 flex flex-col gap-5 w-full">
+    <div class="flex flex-row w-full items-center justify-between">
         <h2 class="mb-4 text-xl text-center">Exercises ({exercises.length})</h2>
 
-        <button class="btn-plain" on:click={newExercise}>
+        <button 
+            type="button" 
+            class="btn-plain" 
+            on:click={newExercise}>
+
             Add Exercise
         </button>
     </div>
@@ -56,4 +60,4 @@
             </button>
         {/each}
     </ol>
-</section>
+</div>

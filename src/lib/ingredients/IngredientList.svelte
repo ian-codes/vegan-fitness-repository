@@ -47,7 +47,7 @@
         {#each ingredients as ingredient}
             <button class="hover:bg-slate-600 transition-all" on:click={() => handleClick(ingredient)}>
                 <li class="flex flex-row items-center justify-between border-b border-slate-800">
-                    <span class="py-2">{ingredient.name}</span>
+                    <span class="py-2">{ingredient.title}</span>
                     <div class="flex flex-row gap-8">
                         <span class="text-end">{ingredient.amount}</span>
                         <span class="text-end">{ingredient.unit}</span>

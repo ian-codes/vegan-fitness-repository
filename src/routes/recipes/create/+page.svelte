@@ -1,50 +1,45 @@
 <script>
     import { goto } from "$app/navigation";
-    import ExerciseList from "$lib/exercises/ExerciseList.svelte";
-    import ExerciseEditModal from "$lib/exercises/ExerciseEditModal.svelte";
+    import IngredientList from "$lib/ingredients/IngredientList.svelte";
+    import IngredientEditModal from "$lib/ingredients/IngredientEditModal.svelte";
     import ErrorMessage from "$lib/global/ErrorMessage.svelte";
+    import Input from "$lib/global/Input.svelte";
+    import TextArea from "$lib/global/TextArea.svelte";
 
-    let workout = {
+    let recipe = {
         title: "",
-        exercises: []
+        prep_time: "",
+        created_by: "",
+        ingredients: []
     };
 
-    let isModalOpen = false;
-    let titleRef;
-    
-    let attemptedCreate = false;
-
-    $: noExercises = attemptedCreate && workout.exercises.length < 1;
-    $: noWorkoutTitle = attemptedCreate && workout.title === "";
-
-    function editTitle() {
-        titleRef.focus();
-        workout.title = "";
+    $: errors = {
+        title: attemptedCreate && !recipe.title.trim(),
+        prep_time: attemptedCreate && !recipe.prep_time.trim(),
+        ingredients: attemptedCreate && recipe.ingredients.length < 1
     }
 
+    let isModalOpen = false;
+    let attemptedCreate = false;
+
     function discard() {
-        goto("/workouts");
+        goto("/recipes");
     }
 
     async function create() {
         attemptedCreate = true;
 
-        if (workout.title === "") {
-            return;
-        }
-
-        if (workout.exercises.length === 0) {
-            return;
-        }
-
         const payload = {
-            workout: {
-                title: workout.title
+            recipe: {
+                title: recipe.title.trim(),
+                description: recipe.description.trim(),
+                created_by: recipe.created_by.trim() || "Anonymous Vegan",
+                prep_time: recipe.prep_time.trim()
             },
-            exercises: workout.exercises
+            ingredients: recipe.exercises
         }
 
-        const response = await fetch('/workouts/create', {
+        const response = await fetch('/recipes/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,8 +48,8 @@
         });
 
         if (response.ok && response.body) {
-            console.log('Workout created successfully');
-            goto(`/workouts`);
+            console.log('Recipe created successfully');
+            goto(`/recipes`);
         }
         else {
             console.error(response.error);
@@ -63,36 +58,38 @@
 </script>
 
 
-<ExerciseEditModal bind:isVisible={isModalOpen} bind:exercises={workout.exercises} />
+<IngredientEditModal bind:isVisible={isModalOpen} bind:ingredients={recipe.ingredients} />
 
 <section class="section">
-    <h1>Create a Workout</h1>
+    <h1>Create a Recipe</h1>
 
-    <div class="text-white flex flex-col max-w-md w-full gap-5">
-        <div class:error={noWorkoutTitle} class="flex flex-row justify-center items-center gap-2">
+    <form class="text-white flex flex-col max-w-md w-full gap-5">
+        <Input
+            name="recipe-title"
+            label="Title"
+            bind:value={recipe.title}
+            bind:isError={errors.title}
+            placeholder="e.g. Protein Pancakes"
+            errorMessage="Please give your recipe a title."
+            optional={false}
+        />
 
-            <input bind:this={titleRef}
-                class="text-white w-full bg-transparent text-xl" 
-                placeholder="Workout Title"
-                bind:value={workout.title}
-                required />
+        <TextArea
+            name="recipe-description"
+            label="Description"
+            optional={true}
+            bind:value={recipe.description}
+            placeholder="Describe your recipe a bit if you want to."
+        />
 
-            <button on:click={editTitle}
-                class="w-4 h-4 invert bg-no-repeat bg-contain" style="background-image: url('/edit.svg');">
-        </div>
-
-        <ErrorMessage bind:visible={noWorkoutTitle}>
-            Please give your workout a title..
-        </ErrorMessage>
-
-
-        <div class:error={noExercises}>
-            <ExerciseList bind:exercises={workout.exercises} />
+        <div class="mt-4" class:error={errors.ingredients}>
+            <IngredientList bind:ingredients={recipe.ingredients} />
         </div>
         
-        <ErrorMessage bind:visible={noExercises}>
-            Please add some exercises to your workout (at least one).
-        </ErrorMessage>
+        <ErrorMessage 
+            bind:visible={errors.ingredients} 
+            message="Please add some ingredients to your recipe (at least one)."
+        />
 
         <div class="flex flex-row justify-center gap-4">
             <button on:click={discard} class="btn btn-cancel" title="Discard">
@@ -102,5 +99,5 @@
                 Create
             </button>
         </div>
-    </div>
+    </form>
 </section>

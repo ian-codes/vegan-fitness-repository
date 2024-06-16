@@ -9,10 +9,7 @@ export async function load() {
 async function getRecipes() {
     let { data, error } = await supabase
         .from("recipes")
-        .select(`
-            *,
-            ingredients (*)
-        `);
+        .select(`*, ingredients (*)`);
 
     if (error) {
         console.log("error: ", error);

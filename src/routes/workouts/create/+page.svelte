@@ -3,67 +3,69 @@
 <section class="section">
     <h1>Create a Workout</h1>
 
-    <div class="text-white flex flex-col max-w-md w-full gap-5">
-        <div class:error={errors.title} class="flex flex-row justify-center items-center gap-2">
-
-            <input bind:this={titleRef}
-                class="text-white w-full bg-transparent text-xl" 
-                placeholder="Workout Title"
-                bind:value={workout.title}
-                required>
-
-            <button on:click={editTitle}
-                class="w-4 h-4 invert bg-no-repeat bg-contain" style="background-image: url('/edit.svg');">
-        </div>
-
-        <ErrorMessage bind:visible={errors.title}>
-            Please give your workout a title.
-        </ErrorMessage>
-
-        <div class="flex flex-row justify-between">
-            <div class="flex flex-row justify-center items-center gap-2">
-                <input 
-                    class="text-white w-full bg-transparent text-xl" 
-                    placeholder="Created By"
-                    bind:value={workout.created_by}
-                    required />
-    
-                <button class="w-4 h-4 invert bg-no-repeat bg-contain" style="background-image: url('/edit.svg');">
+    <form class="text-white flex flex-wrap justify-between items-center max-w-md w-full gap-4">
+        <fieldset class="w-full flex flex-col gap-6">
+            <!-- <legend class="bg-slate-300 w-full relative">
+                <button type="button" class="absolute inset-0 invisible" />
+                General Infos
+            </legend> -->
+            <div class="w-full">
+                <Input 
+                    name="workout-title"
+                    label="Title"
+                    placeholder="e.g. Full Body Workout"
+                    bind:value={workout.title}
+                    bind:isError={errors.title}
+                    errorMessage="Please give your workout a title."
+                />
             </div>
+            <div class="w-full gap-4 flex flex-wrap items-center justify-between">
+                <div class="w-min h-full flex flex-col gap-1">
+                    <label for="select-workout-level">Level *</label>
+                    <select class:error={errors.difficulty} 
+                        class="text-white bg-transparent placeholder-white"
+                        bind:value={workout.difficulty}
+                        placeholder="Select difficulty">
+        
+                        <option value="" disabled selected>Select level</option>
+                        {#each difficulties as difficulty}
+                            <option value="{difficulty}">{difficulty}</option>
+                        {/each}
+                    </select>
+                </div>
+                <Input
+                    name="workout-author"
+                    label="Created By"
+                    optional=true
+                    placeholder="Anonymous Vegan"
+                    bind:value={workout.created_by}
+                />
+            </div>
+        </fieldset>
 
-            <select class:error={errors.difficulty} 
-                class="text-white bg-transparent placeholder-white"
-                bind:value={workout.difficulty}
-                placeholder="Select difficulty">
+        <ErrorMessage 
+            bind:visible={errors.difficulty}
+            message="Please choose a difficulty for your workout."
+        />
 
-                <option value="" disabled selected>Choose difficulty</option>
-                {#each difficulties as difficulty}
-                    <option value="{difficulty}">{difficulty}</option>
-                {/each}
-            </select>
-        </div>
-
-        <ErrorMessage bind:visible={errors.difficulty}>
-            Please choose a difficulty for your workout.
-        </ErrorMessage>
-
-        <div class:error={errors.exercises}>
+        <div class="w-full" class:error={errors.exercises}>
             <ExerciseList bind:exercises={workout.exercises} />
         </div>
         
-        <ErrorMessage bind:visible={errors.exercises}>
-            Please add some exercises to your workout (at least one).
-        </ErrorMessage>
-
-        <div class="flex flex-row justify-center gap-4">
-            <button on:click={discard} class="btn btn-cancel" title="Discard">
+        <ErrorMessage 
+            bind:visible={errors.exercises}
+            message="Please add some exercises to your workout (at least one)." 
+        />
+            
+        <div class="mt-10 flex flex-row w-full justify-center gap-4">
+            <button on:click={discard} type="button" class="btn btn-cancel" title="Discard">
                 Discard
             </button>
-            <button on:click={create} class="btn" title="Create">
+            <button on:click={create} type="button" class="btn" title="Create">
                 Create
             </button>
         </div>
-    </div>
+    </form>
 </section>
 
 
@@ -73,6 +75,7 @@
     import ExerciseList from "$lib/exercises/ExerciseList.svelte";
     import ExerciseEditModal from "$lib/exercises/ExerciseEditModal.svelte";
     import ErrorMessage from "$lib/global/ErrorMessage.svelte";
+    import Input from "$lib/global/Input.svelte";
 
     let workout = {
         title: "",
@@ -89,12 +92,6 @@
 
     let attemptedCreate = false;
     let isModalOpen = false;
-    let titleRef;
-    
-    function editTitle() {
-        titleRef.focus();
-        workout.title = "";
-    }
 
     function discard() {
         goto("/workouts");

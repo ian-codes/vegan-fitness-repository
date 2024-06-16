@@ -18,7 +18,7 @@
 </section>
 
 
-<section class="section">
+<section class="section gap-2">
     {#each topics as topic}
         <Card topic={topic} />
     {/each}

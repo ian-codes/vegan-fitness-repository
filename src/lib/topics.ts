@@ -13,11 +13,11 @@ export const topics = [
         color: "#2762d9",
         img: "programs.jpg"
     },
-    // {
-    //     title: "Recipes",
-    //     desc: "Plant-based, high-protein recipes. Healthy, easy to make and satisfying.",
-    //     slug: "recipes",
-    //     color: "#3ab31e",
-    //     img: "recipes.jpg"
-    // }
+    {
+        title: "Recipes",
+        desc: "Plant-based, high-protein recipes. Healthy, easy to make and satisfying.",
+        slug: "recipes",
+        color: "#3ab31e",
+        img: "recipes.jpg"
+    }
 ];
