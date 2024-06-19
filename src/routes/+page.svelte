@@ -4,7 +4,7 @@
 </script>
 
 
-<section class="my-8 !text-center m-auto w-max">
+<section class="my-8 flex flex-col !text-center m-auto">
     <h1 class="text-2xl mb-4 text-white leading-normal tracking-normal font-bold 
     sm:text-4xl">
         Vegan, Community-Driven Fitness Repository.

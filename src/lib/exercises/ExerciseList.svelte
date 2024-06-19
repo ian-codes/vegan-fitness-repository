@@ -24,9 +24,12 @@
 
 <ExerciseEditModal bind:isVisible={isModalOpen} bind:exercise={selectedExercise} bind:exercises={exercises} />
 
-<div class="mt-10 flex flex-col gap-5 w-full">
-    <div class="flex flex-row w-full items-center justify-between">
-        <h2 class="mb-4 text-xl text-center">Exercises ({exercises.length})</h2>
+<div class="flex flex-col gap-5">
+    <div class="flex flex-row items-center justify-between">
+        <h2 class="!mb-0 text-xl text-center">
+            Exercises 
+            <span class="font-light opacity-70">({exercises.length})</span>
+        </h2>
 
         <button 
             type="button" 
@@ -37,8 +40,8 @@
         </button>
     </div>
 
-    <ol class="flex flex-col gap-1">
-        {#if exercises.length != 0}
+    {#if exercises.length > 0}
+        <ol class="flex flex-col gap-1">
             <div class="font-bold flex flex-row items-center justify-between">
                 <span>Name</span>
                 <div class="flex flex-row gap-5">
@@ -46,18 +49,18 @@
                     <span>Reps</span>
                 </div>
             </div>
-        {/if}
 
-        {#each exercises as exercise}
-            <button class="hover:bg-slate-600 transition-all" on:click={() => handleClick(exercise)}>
-                <li class="flex flex-row items-center justify-between border-b border-slate-800">
-                    <span class="py-2">{exercise.name}</span>
-                    <div class="flex flex-row gap-8">
-                        <span class="text-end">{exercise.sets}</span>
-                        <span class="text-end">{exercise.reps}</span>
-                    </div>
-                </li>
-            </button>
-        {/each}
-    </ol>
+            {#each exercises as exercise}
+                <button class="hover:bg-slate-600 transition-all" on:click={() => handleClick(exercise)}>
+                    <li class="flex flex-row items-center justify-between border-b border-slate-800">
+                        <span class="py-2">{exercise.name}</span>
+                        <div class="flex flex-row gap-8">
+                            <span class="text-end">{exercise.sets}</span>
+                            <span class="text-end">{exercise.reps}</span>
+                        </div>
+                    </li>
+                </button>
+            {/each}
+        </ol>
+    {/if}
 </div>

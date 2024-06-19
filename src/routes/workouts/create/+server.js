@@ -25,14 +25,14 @@ async function addExercises(exercises, newWorkoutId) {
 }
 
 
-// export async function POST({ request }) {
-//     try {
-//         const { workout, exercises } = await request.json();
-//         const newWorkout = await addWorkout(workout);
-//         await addExercises(exercises, newWorkout.id);
-//         return json({ sucess: true, workoutId: newWorkout.id });
-//     }
-//     catch (error) {
-//         return json({ error: error.message }, { status: 500 });
-//     }
-// }
+export async function POST({ request }) {
+    try {
+        const { workout, exercises } = await request.json();
+        const newWorkout = await addWorkout(workout);
+        await addExercises(exercises, newWorkout.id);
+        return json({ sucess: true, workoutId: newWorkout.id });
+    }
+    catch (error) {
+        return json({ error: error.message }, { status: 500 });
+    }
+}

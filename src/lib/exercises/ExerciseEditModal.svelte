@@ -59,8 +59,9 @@
 
 
 {#if isVisible}
-    <div class="z-50 text-center p-4 mb-24 gap-5 flex flex-col items-center
-        bg-slate-900 top-0 bg-opacity-90 rounded-lg h-min absolute inset-0">
+    <div class="z-50 text-center p-4 mb-24 gap-5 flex flex-col items-center justify-center
+        bg-slate-900 top-0 bg-opacity-100 rounded-lg h-full absolute inset-0">
+        
         <div class:error={noName} class="flex flex-col gap-1">
             <label class="text-center" for="name">Name</label>
             <input bind:value={exercise.name} 

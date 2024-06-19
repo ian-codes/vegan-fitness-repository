@@ -21,7 +21,12 @@
 <div class:error={isError}>
     <div class="flex flex-col gap-1">
         <label for="{name}">
-            {label} {optional ? "" : "*"}
+            {label}
+            {#if optional}
+                <span class="font-light opacity-70">(Optional)</span>
+            {:else}
+                *
+            {/if}
         </label>
         <div class="input flex flex-row items-center gap-2">
             <input

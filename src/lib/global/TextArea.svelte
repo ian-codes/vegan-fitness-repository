@@ -18,11 +18,16 @@
 </script>
 
 
-<div>
-    <div class:error={isError} class="flex flex-row justify-center items-center gap-2">
+<div class="w-full">
+    <div class:error={isError} class="gap-2">
         <div class="flex flex-col gap-1">
             <label for="{name}">
-                {label} {optional ? "(Optional)" : ""}
+                {label}
+                {#if optional}
+                    <span class="font-light opacity-70">(Optional)</span>
+                {:else}
+                    *
+                {/if}
             </label>
             <div class="flex flex-row items-center gap-2">
                 <textarea
@@ -51,7 +56,7 @@
 
 <style lang="postcss">
     textarea {
-        @apply w-full bg-transparent  text-white resize-y max-h-32 
-        outline-dashed outline-1 outline-slate-400 p-2 rounded-md
+        @apply w-full bg-transparent min-h-12  text-white resize-y max-h-32 
+        outline outline-1 outline-slate-400 p-2 rounded-md
     }
 </style>

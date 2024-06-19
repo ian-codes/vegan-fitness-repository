@@ -1,6 +1,6 @@
 <a href="{url}" 
     title="back"
-    class="btn">
+    class="btn-plain">
     Back
 </a>
 

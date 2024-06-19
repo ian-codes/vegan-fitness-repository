@@ -1,24 +1,22 @@
 <ExerciseEditModal bind:isVisible={isModalOpen} bind:exercises={workout.exercises} />
 
-<section class="section">
+<section class="section w-fit m-auto py-8 rounded-lg">
     <h1>Create a Workout</h1>
 
-    <form class="text-white flex flex-wrap justify-between items-center max-w-md w-full gap-4">
-        <fieldset class="w-full flex flex-col gap-6 p-4
-            border-1 border border-slate-500 border-dotted rounded-md
-            shadow-sm shadow-green-800 bg-gradient-to-tr from-transparent to-slate-700">
-            <h3 class="w-full relative">
+    <form class="text-white flex flex-wrap gap-6 justify-between items-center max-w-md">
+        <fieldset class="w-full flex flex-col gap-6 shadow-md bg-slate-800 p-6 rounded-lg">
+            <h2 class="text-xl w-full relative">
                 <button on:click={handleInfosClick} 
                     type="button" 
-                    class="absolute inset-0">
+                    class="infos-button absolute inset-0">
                     <span 
                         style="background-image: url('/expand.svg')"
                         class="{infosOpen ? "rotate-180" : ""} absolute right-0 
-                        top-0 w-4 h-4 block bg-no-repeat transition-all
+                        top-0 w-4 h-4 block bg-no-repeat
                         invert bg-contain bg-center" />
                 </button>
-                General Infos
-            </h3>
+                General Info
+            </h2>
             {#if infosOpen}
                 <div class="w-full">
                     <Input 
@@ -30,6 +28,16 @@
                         errorMessage="Please give your workout a title."
                     />
                 </div>
+                <div class="w-full">
+                    <TextArea 
+                        bind:value={workout.notes}
+                        name="workout-notes"
+                        label="Notes"
+                        placeholder="e.g. Rest 2 minutes between each set."
+                        optional={true}
+                    />
+                </div>
+
                 <div class="w-full gap-4 flex flex-wrap items-center justify-between">
                     <div class="w-min h-full flex flex-col gap-1">
                         <label for="select-workout-level">Level *</label>
@@ -60,7 +68,7 @@
             message="Please choose a difficulty for your workout."
         />
 
-        <div class="w-full" class:error={errors.exercises}>
+        <div class="w-full shadow-md bg-slate-800 p-6 rounded-lg" class:error={errors.exercises}>
             <ExerciseList bind:exercises={workout.exercises} />
         </div>
         
@@ -80,6 +88,16 @@
     </form>
 </section>
 
+<style lang="postcss">
+    .infos-button > span {
+        @apply outline-none rounded-full;
+        transition: all .2s ease;
+    }
+    .infos-button:hover > span {
+        @apply outline-1 outline outline-black;
+    }
+</style>
+
 
 <script>
     import { goto } from "$app/navigation";
@@ -88,9 +106,11 @@
     import ExerciseEditModal from "$lib/exercises/ExerciseEditModal.svelte";
     import ErrorMessage from "$lib/global/ErrorMessage.svelte";
     import Input from "$lib/global/Input.svelte";
+    import TextArea from "$lib/global/TextArea.svelte";
 
     let workout = {
         title: "",
+        notes: "",
         created_by: "",
         difficulty: "",
         exercises: []
@@ -98,6 +118,7 @@
 
     $: errors = {
         title: attemptedCreate && !workout.title.trim(),
+        notes: attemptedCreate && !workout.notes.trim(),
         difficulty: attemptedCreate && !workout.difficulty.trim(),
         exercises: attemptedCreate && workout.exercises.length === 0
     }
@@ -117,13 +138,13 @@
     async function create() {
         attemptedCreate = true;
 
-        // validate payload
         if (Object.values(errors).includes(true))
             return;
 
         const payload = {
             workout: {
                 title: workout.title,
+                notes: workout.notes,
                 created_by: workout.created_by.trim() || "Anonymous",
                 difficulty: workout.difficulty
             },
