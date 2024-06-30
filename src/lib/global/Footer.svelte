@@ -5,7 +5,7 @@
     let menu_items = [
         {title: "Home", slug: "/"}, 
         {title: "Workouts", slug:"/workouts"},
-        {title: "Recipes", slug:"/recipes"}, 
+        // {title: "Recipes", slug:"/recipes"}, 
     ];
 </script>
 
@@ -15,7 +15,7 @@
 {/if}
 
 
-<footer class="p-2 bg-slate-800 bg-opacity-50 shadow-2xl shadow-white  w-full fixed bottom-0 left-0 flex justify-between">
+<footer class="px-2 py-1 bg-slate-800 bg-opacity-80 shadow-2xl shadow-white  w-full fixed bottom-0 left-0 flex justify-between">
     <span class="text-white font-lighter text-4xl">
         Ⓥ
     </span>
