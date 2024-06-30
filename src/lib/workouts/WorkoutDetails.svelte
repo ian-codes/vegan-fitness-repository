@@ -1,5 +1,5 @@
 
-<div class="appear flex flex-col justify-center items-center gap-10">
+<div class="appear py-8 flex flex-col justify-center items-center gap-10">
     <section class="flex text-white flex-col gap-4 max-w-md w-full">
         <h1>{workout.title}</h1>
         <p class="text-center text-sm opacity-70 block w-full">

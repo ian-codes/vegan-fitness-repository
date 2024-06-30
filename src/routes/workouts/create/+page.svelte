@@ -1,104 +1,3 @@
-<ExerciseEditModal bind:isVisible={isModalOpen} bind:exercises={workout.exercises} />
-
-<section class="section w-fit m-auto py-8 rounded-lg">
-    <h1>Create a Workout</h1>
-
-    <form class="text-white flex flex-wrap gap-6 justify-between items-center max-w-md">
-        <fieldset class="w-full flex flex-col gap-6 shadow-md bg-slate-800 p-6 rounded-lg">
-            <h2 class="text-xl w-full relative">
-                <button on:click={handleInfosClick} 
-                    type="button" 
-                    class="infos-button absolute inset-0">
-                    <span 
-                        style="background-image: url('/expand.svg')"
-                        class="{infosOpen ? "rotate-180" : ""} absolute right-0 
-                        top-0 w-4 h-4 block bg-no-repeat
-                        invert bg-contain bg-center" />
-                </button>
-                General Info
-            </h2>
-            {#if infosOpen}
-                <div class="w-full">
-                    <Input 
-                        name="workout-title"
-                        label="Title"
-                        placeholder="e.g. Full Body Workout"
-                        bind:value={workout.title}
-                        bind:isError={errors.title}
-                        errorMessage="Please give your workout a title."
-                    />
-                </div>
-                <div class="w-full">
-                    <TextArea 
-                        bind:value={workout.notes}
-                        name="workout-notes"
-                        label="Notes"
-                        placeholder="e.g. Rest 2 minutes between each set."
-                        optional={true}
-                    />
-                </div>
-
-                <div class="w-full gap-4 flex flex-wrap items-center justify-between">
-                    <div class="w-min h-full flex flex-col gap-1">
-                        <label for="select-workout-level">Level *</label>
-                        <select class:error={errors.difficulty} 
-                            class="text-white bg-transparent placeholder-white"
-                            bind:value={workout.difficulty}
-                            placeholder="Select difficulty">
-            
-                            <option value="" disabled selected>Select level</option>
-                            {#each difficulties as difficulty}
-                                <option value="{difficulty}">{difficulty}</option>
-                            {/each}
-                        </select>
-                    </div>
-                    <Input
-                        name="workout-author"
-                        label="Created By"
-                        optional=true
-                        placeholder="Anonymous Vegan"
-                        bind:value={workout.created_by}
-                    />
-                </div>
-            {/if}
-        </fieldset>
-
-        <ErrorMessage 
-            bind:visible={errors.difficulty}
-            message="Please choose a difficulty for your workout."
-        />
-
-        <div class="w-full shadow-md bg-slate-800 p-6 rounded-lg" class:error={errors.exercises}>
-            <ExerciseList bind:exercises={workout.exercises} />
-        </div>
-        
-        <ErrorMessage 
-            bind:visible={errors.exercises}
-            message="Please add some exercises to your workout (at least one)." 
-        />
-            
-        <div class="mt-10 flex flex-row w-full justify-center gap-4">
-            <button on:click={discard} type="button" class="btn btn-cancel" title="Discard">
-                Discard
-            </button>
-            <button on:click={create} type="button" class="btn" title="Create">
-                Create
-            </button>
-        </div>
-    </form>
-</section>
-
-<style lang="postcss">
-    .infos-button > span {
-        @apply outline-none rounded-full;
-        transition: all .2s ease;
-    }
-    .infos-button:hover > span {
-        @apply outline-1 outline outline-black;
-    }
-</style>
-
-
 <script>
     import { goto } from "$app/navigation";
     import { difficulties } from "$lib/difficulties.js";
@@ -117,30 +16,36 @@
     };
 
     $: errors = {
-        title: attemptedCreate && !workout.title.trim(),
-        notes: attemptedCreate && !workout.notes.trim(),
-        difficulty: attemptedCreate && !workout.difficulty.trim(),
-        exercises: attemptedCreate && workout.exercises.length === 0
+        title: null,
+        difficulty: null,
+        exercises: null,
     }
 
     let infosOpen = true;
     let attemptedCreate = false;
     let isModalOpen = false;
+    let areExercisesValid = false;
+    let exerciseListRef;
 
     function discard() {
         goto("/workouts");
     }
 
     function handleInfosClick() {
+        // goto("#general-info");
         infosOpen = !infosOpen;
     }
 
-    async function create() {
+    async function create() { 
         attemptedCreate = true;
 
-        if (Object.values(errors).includes(true))
-            return;
+        exerciseListRef.validate();
 
+        if (!validateWorkoutData()) {
+            return;
+        }
+
+        console.log("hello")
         const payload = {
             workout: {
                 title: workout.title,
@@ -167,4 +72,122 @@
             console.error(response.error);
         } 
     }
+
+    function validateWorkoutData() {
+        errors.title = !workout.title.trim();
+        errors.difficulty = !workout.difficulty.trim();
+        errors.exercises = workout.exercises.length == 0;
+        console.log(errors)
+        let isValid = !Object.values(errors).includes(true);
+        console.log(isValid)
+        return isValid;
+    }
 </script>
+
+
+<ExerciseEditModal bind:isVisible={isModalOpen} bind:exercises={workout.exercises} />
+
+<section class="section w-fit m-auto py-8 rounded-lg">
+    <h1>Create a Workout</h1>
+
+    <form class="text-white flex flex-wrap gap-6 justify-between items-center max-w-md">
+        <div class="w-full shadow-md rounded-lg" class:error={errors.exercises}>
+            <ExerciseList 
+                bind:this={exerciseListRef}
+                bind:exercises={workout.exercises} 
+            />
+        </div>
+
+        <fieldset id="general-info" 
+            class="w-full flex flex-col gap-6 shadow-md rounded-lg">
+
+            <h2 class="flex items-center gap-2 text-xl !mb-0 w-full relative">
+                <button on:click={handleInfosClick} 
+                    type="button" 
+                    class="infos-button absolute inset-0">
+                </button>
+
+                <span 
+                    style="background-image: url('/expand.svg')"
+                    class="{infosOpen ? "rotate-180" : ""} w-4 h-4 block bg-no-repeat
+                    invert bg-contain bg-center pointer-events-none" 
+                />
+                General Info
+            </h2>
+            {#if infosOpen}
+                <div class="w-full">
+                    <Input 
+                        name="workout-title"
+                        label="Title"
+                        placeholder="e.g. Full Body Workout"
+                        bind:value={workout.title}
+                        bind:isError={errors.title}
+                        errorMessage="Please give your workout a title."
+                    />
+                </div>
+                <div class="w-full">
+                    <TextArea 
+                        bind:value={workout.notes}
+                        name="workout-notes"
+                        label="Notes"
+                        placeholder="e.g. Rest 2 minutes between each set."
+                        optional={true}
+                    />
+                </div>
+
+                <div class="w-full gap-4 flex flex-wrap items-center justify-between">
+                    <div class="w-min h-full flex flex-col gap-1">
+                        <label for="select-workout-level">
+                            Level *
+                        </label>
+
+                        <select class:error={errors.difficulty} 
+                            class="text-white bg-transparent placeholder-white"
+                            bind:value={workout.difficulty}
+                            placeholder="Select difficulty">
+            
+                            <option value="" disabled selected>
+                                Select level
+                            </option>
+
+                            {#each difficulties as difficulty}
+                                <option value="{difficulty}">
+                                    {difficulty}
+                                </option>
+                            {/each}
+                        </select>
+                    </div>
+                    <Input
+                        name="workout-author"
+                        label="Created By"
+                        optional=true
+                        placeholder="Anonymous Vegan"
+                        bind:value={workout.created_by}
+                    />
+                </div>
+            {/if}
+        </fieldset>
+
+        <div class="mt-10 flex flex-row w-full justify-center gap-4">
+            <button on:click={discard} type="button" class="btn btn-cancel" title="Discard">
+                Discard
+            </button>
+            <button on:click={create} type="button" class="btn" title="Create">
+                Create Workout
+            </button>
+        </div>
+    </form>
+</section>
+
+
+<style lang="postcss">
+    @media (hover: hover) {
+        .infos-button:hover + span {
+            @apply outline-1 outline outline-black;
+        }
+    }
+    .infos-button + span {
+        @apply outline-none rounded-full;
+        transition: all .2s ease;
+    }
+</style>
